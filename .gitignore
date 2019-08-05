@@ -1,0 +1,14 @@
+docker
+.docker-compose.yml
+/.DS_Store
+/**/*.DS_Store
+/src/public/hot
+/src/public/storage
+/src/storage/*.key
+/src/vendor
+/.idea
+/src/.env
+/src/.env.tmp
+
+/src/resources/lang/vendor/*
+/src/storage/uploads

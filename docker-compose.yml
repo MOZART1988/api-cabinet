@@ -1,0 +1,47 @@
+version: '3'
+services:
+  nginx:
+    build:
+      context: ./
+      dockerfile: ../docker/nginx.docker
+    volumes:
+      - ./:/var/www:cached
+    ports:
+      - "80:80"
+    links:
+      - php-fpm
+  php-fpm:
+    build:
+      context: ./
+      dockerfile: ../docker/php-fpm.docker
+    volumes:
+      - ./:/var/www:cached
+    links:
+      - mysql
+    environment:
+      - "DB_PORT=3306"
+      - "DB_HOST=mysql"
+  php-cli:
+    build:
+      context: ./
+      dockerfile: ../docker/php-cli.docker
+    volumes:
+      - ./:/var/www:cached
+    links:
+      - mysql
+    environment:
+      - "DB_PORT=3306"
+      - "DB_HOST=mysql"
+    tty: true
+  mysql:
+    image: mysql:5.7
+    volumes:
+      - ./storage/docker/mysql:/var/lib/mysql:cached
+      - ./storage/docker/dump.sql:/dump.sql:cached
+    environment:
+      - "MYSQL_ROOT_PASSWORD=secret"
+      - "MYSQL_USER=homestead"
+      - "MYSQL_PASSWORD=secret"
+      - "MYSQL_DATABASE=homestead"
+    ports:
+    - "3306:3306"
