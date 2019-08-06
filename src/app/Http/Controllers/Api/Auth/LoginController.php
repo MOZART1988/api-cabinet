@@ -63,7 +63,7 @@ class LoginController extends Controller
     public function messages()
     {
         return [
-            'id.required' => 'Необходимо заполнить БИН',
+            'id.required' => 'Необходимо заполнить БИН/ИИН',
             'password.required' => 'Необходимо заполнить пароль'
         ];
     }
