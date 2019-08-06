@@ -24,7 +24,7 @@ services:
   php-cli:
     build:
       context: ./
-      dockerfile: ../docker/php-cli.docker
+      dockerfile: ./docker/php-cli.docker
     volumes:
       - ./:/var/www:cached
     links:
