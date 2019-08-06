@@ -3,7 +3,7 @@ services:
   nginx:
     build:
       context: ./
-      dockerfile: ../docker/nginx.docker
+      dockerfile: ./docker/nginx.docker
     volumes:
       - ./:/var/www:cached
     ports:
@@ -13,7 +13,7 @@ services:
   php-fpm:
     build:
       context: ./
-      dockerfile: ../docker/php-fpm.docker
+      dockerfile: ./docker/php-fpm.docker
     volumes:
       - ./:/var/www:cached
     links:
