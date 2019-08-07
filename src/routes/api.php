@@ -25,4 +25,6 @@ Route::group(['namespace' => 'Api'], function () {
 
     Route::get('status', 'InvoicesController@getInvoiceByNumber')
         ->name('getInvoiceNumber')->middleware('jwt.auth');
+    Route::get('report', 'LeadsController@showByNumber')
+        ->name('report')->middleware('jwt.auth');
 });

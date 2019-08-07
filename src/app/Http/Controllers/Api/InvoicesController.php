@@ -25,7 +25,7 @@ class InvoicesController extends Controller
                 'success' => false,
                 'msg' => 'validation_errors',
                 'errors' => ['invoiceNumber' => ['Не может быть пустым']]
-            ]);
+            ], 422);
         }
 
         $response = $this->sparkApiClient->requestInvoice($invoiceNumber);
