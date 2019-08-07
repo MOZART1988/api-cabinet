@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Http\Resources\Lead1СResource;
-use App\Lead1С;
+use App\Http\Resources\LeadResource;
+use App\Lead;
 use Illuminate\Http\Request;
 
 class LeadsController extends Controller
@@ -21,7 +21,7 @@ class LeadsController extends Controller
             ], 422);
         }
 
-        $lead = Lead1С::where('order_number', '=', $orderNumber)->first();
+        $lead = Lead::where('order_number', '=', $orderNumber)->first();
 
         if ($lead === null) {
             return response()->json(
@@ -32,6 +32,6 @@ class LeadsController extends Controller
             );
         }
 
-        return ['success' => true, 'data' => new Lead1СResource($lead)];
+        return ['success' => true, 'data' => new LeadResource($lead)];
     }
 }

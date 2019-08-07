@@ -2,10 +2,10 @@
 
 namespace App\Http\Resources;
 
-use App\Lead1С;
+use App\Lead;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class Lead1СResource extends JsonResource
+class LeadResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -15,7 +15,7 @@ class Lead1СResource extends JsonResource
      */
     public function toArray($request)
     {
-        /** @var Lead1С $this */
+        /** @var Lead $this */
 
         return parent::toArray($request);
     }
