@@ -58,7 +58,8 @@ class RegisterController extends Controller
             'password.same' => 'Пароли должны совпадать',
             'repeat_password.required' => 'Необходимо повторить пароль',
             'id.unique' => 'ИИН/БИН уже занят',
-            'amo_id.unique' => 'AMO ID уже занят'
+            'amo_id.unique' => 'AMO ID уже занят',
+            'full_name' => 'Необходимо заполнить Полное имя',
         ];
     }
 }
