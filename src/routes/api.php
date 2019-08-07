@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use App\Http\Controllers\Api\InvoicesController;
 use App\Http\Controllers\Api\Auth\LoginController;
+use App\Http\Controllers\Api\Auth\RegisterController;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,7 +18,8 @@ use App\Http\Controllers\Api\Auth\LoginController;
 
 Route::group(['namespace' => 'Api'], function () {
     Route::group(['namespace' => 'Auth'], function () {
-        Route::post('auth/login', LoginController::class . '@login');
+        Route::post('user/login', 'LoginController@login');
+        Route::post('user/register', 'RegisterController@register');
     });
 
 
