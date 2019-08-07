@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Http\Request;
+use App\Http\Controllers\Api\InvoicesController;
+use App\Http\Controllers\Api\Auth\LoginController;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,6 +17,10 @@ use Illuminate\Http\Request;
 
 Route::group(['namespace' => 'Api'], function () {
     Route::group(['namespace' => 'Auth'], function () {
-        Route::post('user/login', 'LoginController@login');
+        Route::post('auth/login', LoginController::class . '@login');
     });
+
+
+    Route::get('status', 'InvoicesController@getInvoiceByNumber')
+        ->name('getInvoiceNumber');
 });

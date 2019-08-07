@@ -33,7 +33,7 @@ use Tymon\JWTAuth\Contracts\JWTSubject;
  */
 class User extends Authenticatable implements JWTSubject
 {
-    protected $table = 'cabinet_users';
+    protected $table = 'contragents';
 
     use Notifiable;
     /**

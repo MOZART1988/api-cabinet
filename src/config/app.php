@@ -134,6 +134,8 @@ return [
     |
     */
 
+    'spark_api_url' => env('SPARK_API_URL', 'http://188.0.151.36/spark_copy/hs/integrationsite'),
+
     'providers' => [
 
         /*
