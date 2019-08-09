@@ -5,19 +5,56 @@ namespace App\SparkApi;
 
 use \GuzzleHttp\Client;
 use GuzzleHttp\Exception\ClientException;
-use GuzzleHttp\Exception\ServerException;
 
 class Spark
 {
+    const DEFAULT_LOGIN = 'тест';
+    const DEFAULT_PASSWORD = '123';
+
+    public $token = null;
+
     /**
      * @var Client
      */
     public $client;
-    public $curl;
+
+    public static function authorize(Client $client, string $login = null, string $password = null)
+    {
+        $url = config('app.spark_api_url') . '/authorization';
+
+        $response = null;
+
+        try {
+            $response = $client->request(
+                'POST', $url,
+                [
+                    'body' => json_encode(
+                        [
+                            'login' => $login ? $login : self::DEFAULT_LOGIN,
+                            'password' => $password ? $password : self::DEFAULT_PASSWORD
+                        ], JSON_FORCE_OBJECT
+                    ),
+                    'headers' => [
+                        'Content-Type' => 'application/json'
+                    ]
+                ]
+            );
+        } catch (ClientException $e){
+
+        }
+
+        if ($response !== null) {
+            $response = json_decode($response);
+        }
+
+        return $response['token'] ? $response['token'] : null;
+    }
 
     public function __construct()
     {
         $this->client = new Client();
+
+        $this->token = self::authorize($this->client);
     }
 
     public function requestInvoice($invoiceNumber)
@@ -76,5 +113,98 @@ class Spark
         }
 
         return $result;
+    }
+
+    public function addOrder($consignor, $shipmentType, $receiver, $cargo, $shippings)
+    {
+        /**
+         * {
+        "consignor": {
+        "name": 'Spark',
+        "bin": 12345678901,
+        "country": 'Kazkahstan',
+        "province": 'Almaty oblast',
+        "city": 'Алматы',
+        "street": 'Tole Bi',
+        "post_index": '345345',
+        "building": '101',
+        "office": 'Block E',
+        "contact_person": 'Ivanov',
+        "contact_phone": '77777776655'
+        },
+
+        "shippings": [
+        {
+
+        "receiver": {
+        "type": 'Юридическое лицо',
+        "name": 'Big Tech',
+        "bin": 12345678901,
+        "country": 'Russia',
+        "province": 'Moskovskaya oblast',
+        "city": 'Москва',
+        "post_index": '345345',
+        "street": 'Balchug',
+        "building": '7',
+        "office": '5',
+        "contact_person": 'Petrov',
+        "contact_phone": '79133334455'
+        },
+
+        "cargo": {
+        "places": 3,
+        "weight": 100,
+        "volume": 6,
+        "payment_type": 'Отправителем',
+        "payment_method": "Перечислением на счет",
+
+        "shipment_type": 'Стандарт',
+        "annotation": 'Не слишком длинное примечание',
+        "cod": 30000,
+        "declared_price": 60000
+        }
+        }
+        ]
+        }
+        */
+
+        $token = $this->token;
+
+        if ($token == null) {
+            $token = self::authorize($this->client);
+        }
+
+        $url = config('app.spark_api_url') . '/order';
+
+        $response = null;
+
+        try {
+            $response = $this->client->request(
+                'POST', $url,
+                [
+                    'body' => json_encode(
+                        [
+                            'consignor' => $consignor,
+                            'shippings' => $shippings,
+                            'receiver' => $receiver,
+                            'cargo' => $cargo,
+                            'shipment_type' => $shipmentType
+                        ], JSON_FORCE_OBJECT
+                    ),
+                    'headers' => [
+                        'Content-Type' => 'application/json',
+                        'token' => $token,
+                    ]
+                ]
+            );
+        } catch (ClientException $e){
+
+        }
+
+        if ($response !== null) {
+            $response = json_decode($response);
+        }
+
+        return $response;
     }
 }

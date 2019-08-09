@@ -8,11 +8,20 @@ use App\Direction;
 use App\Http\Resources\CityResource;
 use App\Http\Resources\CountryResource;
 use App\Http\Resources\DirectionResource;
+use GuzzleHttp\Client;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\SparkApi\Spark;
 
 class CatalogController extends Controller
 {
+    public $sparkApi = null;
+
+    public function __construct()
+    {
+        $this->sparkApi = new Spark();
+    }
+
     public function directions(Request $request)
     {
         $query = Direction::query();
@@ -97,5 +106,10 @@ class CatalogController extends Controller
 
         return CityResource::collection($query->paginate());
 
+    }
+
+    public function test()
+    {
+        print_r(Spark::authorize(new Client()));
     }
 }

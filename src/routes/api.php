@@ -33,6 +33,9 @@ Route::group(['namespace' => 'Api'], function () {
     Route::get('catalog/countries', 'CatalogController@countries')
         ->name('countries')->middleware('jwt.auth');
 
+    Route::get('catalog/test', 'CatalogController@test')
+        ->name('test');
+
     Route::get('report', 'LeadsController@showByNumber')
         ->name('report')->middleware('jwt.auth');
 });
