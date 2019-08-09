@@ -37,7 +37,7 @@ Route::group(['namespace' => 'Api'], function () {
     Route::get('report', 'LeadsController@showByNumber')
         ->name('report')->middleware('jwt.auth');
 
-    Route::post('order', 'OrdersController@post')
+    Route::post('order', 'OrdersController@add')
         ->name('add-order')->middleware('jwt.auth');
 
     Route::get('templates', 'TemplatesController@list')

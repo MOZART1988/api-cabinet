@@ -194,7 +194,7 @@ class Spark
                 ]
             )->getBody();
         } catch (ClientException $e){
-
+            $response = $e->getResponse()->getBody();
         }
 
         if ($response !== null) {
@@ -214,7 +214,7 @@ class Spark
 
         $url = config('app.spark_api_url') . '/template';
 
-        $result = null;
+        $response = null;
 
         try {
             $response = json_decode($this->client->get($url,
@@ -222,18 +222,12 @@ class Spark
                     'token' => $token
                 ]])->getBody(), JSON_FORCE_OBJECT);
 
-            $result = [
-                'success' => true,
-                'data' => $response
-            ];
-            
-
 
         } catch (ClientException $exception) {
 
         }
 
-        return $result;
+        return $response;
     }
 
     public function addTemplate($object)
@@ -249,7 +243,7 @@ class Spark
         $response = null;
 
         try {
-            $response = $this->request(
+            $response = $this->client->request(
                 'POST', $url,
                 [
                     'body' => json_encode(

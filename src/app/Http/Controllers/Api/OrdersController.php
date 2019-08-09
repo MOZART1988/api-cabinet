@@ -28,18 +28,17 @@ class OrdersController extends Controller
         }
 
 
+        $shippings = $request->post('shippings', []);
 
-        $shippings = $request->post('shippings');
+        $response = $this->sparkApi->addOrder($consignor, $shippings);
 
-        if ($shippings == null) {
+        if (!empty($response['Status']) && ($response['Status'] === 'Ошибка')) {
             return response()->json([
                 'success' => false,
                 'msg' => 'validation_errors',
-                'errors' => ['shippings' => ['Не может быть пустым']]
+                'errors' => $response
             ], 422);
         }
-
-        $response = $this->sparkApi->addOrder($consignor, $shippings);
 
         return response()->json([
             'success' => true,
