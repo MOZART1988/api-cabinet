@@ -226,11 +226,7 @@ class Spark
                 'success' => true,
                 'data' => $response
             ];
-
-            echo $this->client->get($url,
-                ['headers' => [
-                    'token' => $token
-                ]])->getBody(); die;
+            
 
 
         } catch (ClientException $exception) {
