@@ -40,4 +40,10 @@ Route::group(['namespace' => 'Api'], function () {
     Route::post('order', 'OrdersController@post')
         ->name('add-order')->middleware('jwt.auth');
 
+    Route::get('templates', 'TemplatesController@list')
+        ->name('list-templates')->middleware('jwt.auth');
+
+    Route::post('templates', 'TemplatesController@add')
+        ->name('add-template')->middleware('jwt.auth');
+
 });

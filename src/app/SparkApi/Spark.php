@@ -38,13 +38,13 @@ class Spark
                         'Content-Type' => 'application/json'
                     ]
                 ]
-            );
+            )->getBody();
         } catch (ClientException $e){
 
         }
 
         if ($response !== null) {
-            $response = json_decode($response);
+            $response = json_decode($response, JSON_FORCE_OBJECT);
         }
 
         return $response['token'] ? $response['token'] : null;
@@ -192,13 +192,13 @@ class Spark
                         'token' => $token,
                     ]
                 ]
-            );
+            )->getBody();
         } catch (ClientException $e){
 
         }
 
         if ($response !== null) {
-            $response = json_decode($response);
+            $response = json_decode($response, JSON_FORCE_OBJECT);
         }
 
         return $response;
@@ -226,6 +226,11 @@ class Spark
                 'success' => true,
                 'data' => $response
             ];
+
+            echo $this->client->get($url,
+                ['headers' => [
+                    'token' => $token
+                ]])->getBody(); die;
 
 
         } catch (ClientException $exception) {
@@ -259,7 +264,7 @@ class Spark
                         'token' => $token
                     ]
                 ]
-            );
+            )->getBody();
         } catch (ClientException $e){
 
         }
