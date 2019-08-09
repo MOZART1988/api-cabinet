@@ -27,42 +27,19 @@ class OrdersController extends Controller
             ], 422);
         }
 
-        $receiver = $request->post('receiver');
 
-        if ($receiver == null) {
+
+        $shippings = $request->post('shippings');
+
+        if ($shippings == null) {
             return response()->json([
                 'success' => false,
                 'msg' => 'validation_errors',
-                'errors' => ['receiver' => ['Не может быть пустым']]
+                'errors' => ['shippings' => ['Не может быть пустым']]
             ], 422);
         }
 
-        $cargo = $request->post('cargo');
-
-        if ($cargo == null) {
-            return response()->json([
-                'success' => false,
-                'msg' => 'validation_errors',
-                'errors' => ['cargo' => ['Не может быть пустым']]
-            ], 422);
-        }
-
-        $shipmentType = $request->post('shipment_type');
-
-        if ($shipmentType == null) {
-            return response()->json([
-                'success' => false,
-                'msg' => 'validation_errors',
-                'errors' => ['shipmentType' => ['Не может быть пустым']]
-            ], 422);
-        }
-
-        $response = $this->sparkApi->addOrder(
-            $consignor,
-            $shipmentType,
-            $receiver,
-            $cargo,
-        $request->has('shippings') ? $request->post('shippings') : []);
+        $response = $this->sparkApi->addOrder($consignor, $shippings);
 
         return response()->json([
             'success' => true,
