@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class RemoveAmoIdFromContragents1c extends Migration
+class DropContragents1C extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,12 @@ class RemoveAmoIdFromContragents1c extends Migration
      */
     public function up()
     {
-        Schema::table('contragents_1c', function (Blueprint $table) {
-            $table->removeColumn('amo_id');
-        });
+        if (Schema::hasColumn('contragents_1C', 'amo_id'))
+        {
+            Schema::table('contragents_1C', function($table) {
+                $table->dropColumn('amo_id');
+            });
+        }
     }
 
     /**
@@ -25,8 +28,6 @@ class RemoveAmoIdFromContragents1c extends Migration
      */
     public function down()
     {
-        Schema::table('contragents_1c', function (Blueprint $table) {
-            //
-        });
+        //
     }
 }
