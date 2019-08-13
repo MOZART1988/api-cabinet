@@ -14,7 +14,7 @@ use App\Http\Controllers\Controller;
 
 class CatalogController extends Controller
 {
-    
+
     public function directions(Request $request)
     {
         $query = Direction::query();
