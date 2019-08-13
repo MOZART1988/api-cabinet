@@ -25,7 +25,6 @@ class RegisterController extends Controller
             'full_name' => 'required|string|max:255',
             'email' => 'email|unique:contragents',
             'id' => 'required|string|max:255|unique:contragents_1C',
-            'amo_id' => 'required|integer|unique:contragents_1C',
             'password' => 'required|same:repeat_password|required_with:repeat_password',
             'repeat_password' => 'required',
         ], $this->messages());
