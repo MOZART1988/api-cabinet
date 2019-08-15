@@ -16,7 +16,13 @@ use App\Http\Controllers\Api\Auth\RegisterController;
 |
 */
 
-Route::group(['namespace' => 'Api', 'middleware' => ['cors']], function () {
+
+//Дичь какая то надо реализовать это более красиво
+
+header("Access-Control-Allow-Origin:*");
+header('Access-Control-Allow-Methods:GET,POST,PUT,DELETE,OPTIONS');
+
+Route::group(['namespace' => 'Api'], function () {
     Route::group(['namespace' => 'Auth'], function () {
         Route::post('user/login', 'LoginController@login');
         Route::post('user/register', 'RegisterController@register');
