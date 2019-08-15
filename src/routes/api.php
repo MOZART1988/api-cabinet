@@ -21,6 +21,7 @@ use App\Http\Controllers\Api\Auth\RegisterController;
 
 header("Access-Control-Allow-Origin:*");
 header('Access-Control-Allow-Methods:GET,POST,PUT,DELETE,OPTIONS');
+header("Access-Control-Allow-Headers:*");
 
 Route::group(['namespace' => 'Api', 'middleware' => ['api.headers']], function () {
     Route::group(['namespace' => 'Auth'], function () {
