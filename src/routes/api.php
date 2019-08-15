@@ -16,7 +16,7 @@ use App\Http\Controllers\Api\Auth\RegisterController;
 |
 */
 
-Route::group(['namespace' => 'Api'], function () {
+Route::group(['namespace' => 'Api', 'middleware' => ['cors']], function () {
     Route::group(['namespace' => 'Auth'], function () {
         Route::post('user/login', 'LoginController@login');
         Route::post('user/register', 'RegisterController@register');
