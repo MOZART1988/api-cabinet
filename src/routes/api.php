@@ -22,7 +22,7 @@ use App\Http\Controllers\Api\Auth\RegisterController;
 header("Access-Control-Allow-Origin:*");
 header('Access-Control-Allow-Methods:GET,POST,PUT,DELETE,OPTIONS');
 
-Route::group(['namespace' => 'Api'], function () {
+Route::group(['namespace' => 'Api', 'middleware' => ['api.headers']], function () {
     Route::group(['namespace' => 'Auth'], function () {
         Route::post('user/login', 'LoginController@login');
         Route::post('user/register', 'RegisterController@register');
