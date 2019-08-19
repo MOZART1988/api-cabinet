@@ -41,7 +41,7 @@ Route::group(['namespace' => 'Api', 'middleware' => ['api.headers']], function (
         ->name('countries')->middleware('jwt.auth');
 
 
-    Route::get('report', 'LeadsController@showByNumber')
+    Route::get('report', 'LeadsController@list')
         ->name('report')->middleware('jwt.auth');
 
     Route::post('order', 'OrdersController@add')
