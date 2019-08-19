@@ -2,10 +2,10 @@
 
 namespace App\Http\Resources;
 
-use App\Lead;
+use App\Order;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class LeadResource extends JsonResource
+class OrdersResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -15,12 +15,13 @@ class LeadResource extends JsonResource
      */
     public function toArray($request)
     {
-        /** @var Lead $this */
-
+        /**
+         * @var Order $this
+        */
         $data = parent::toArray($request);
 
-        return array_merge($data,
-            ['orders' => OrdersResource::collection($this->orders()->get())]
-            );
+        unset($data['direction']);
+
+        return array_merge($data, ['direction' => DirectionResource::collection($this->direction()->get())]);
     }
 }
