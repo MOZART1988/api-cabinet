@@ -191,18 +191,15 @@ class Spark
             $response = $this->client->request(
                 'POST', $url,
                 [
-                    'body' => json_encode(
-                        [
-                            'consignor' => $consignor,
-                            'shippings' => [
-                                [
-                                    'receiver' => $receiver,
-                                    'cargo' => $cargo
-                                ]
-
+                    'body' => json_encode([
+                        'consignor' => $consignor,
+                        'shippings' => [
+                            0 => [
+                                'receiver' => $receiver,
+                                'cargo' => $cargo
                             ]
-                        ], JSON_FORCE_OBJECT
-                    ),
+                        ]
+                    ]),
                     'headers' => [
                         'Content-Type' => 'application/json',
                         'token' => $token,

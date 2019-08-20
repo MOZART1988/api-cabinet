@@ -43,6 +43,14 @@ class OrdersController extends Controller
             ], 422);
         }
 
+        if (empty($consignor['city'])) {
+            return response()->json([
+                'success' => false,
+                'msg' => 'validation_errors',
+                'errors' => ['consignor[city]' => ['Не может быть пустым']]
+            ], 422);
+        }
+
         $receiver = $request->post('receiver');
 
         if ($receiver === null) {
@@ -66,14 +74,6 @@ class OrdersController extends Controller
                 'success' => false,
                 'msg' => 'validation_errors',
                 'errors' => ['receiver[contact_person]' => ['Не может быть пустым']]
-            ], 422);
-        }
-
-        if (empty($receiver['city'])) {
-            return response()->json([
-                'success' => false,
-                'msg' => 'validation_errors',
-                'errors' => ['receiver[city]' => ['Не может быть пустым']]
             ], 422);
         }
 
