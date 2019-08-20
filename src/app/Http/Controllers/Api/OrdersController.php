@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\SparkApi\Spark;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use PhpParser\JsonDecoder;
 
 class OrdersController extends Controller
 {
@@ -58,7 +59,18 @@ class OrdersController extends Controller
 
     public function add(Request $request)
     {
-        $consignor = $request->post('consignor');
+        $data = str_replace("'", "\"", $request->instance()->getContent());
+        $data = json_decode($data, true, 512, JSON_UNESCAPED_UNICODE);
+
+        if (json_last_error() !== 0) {
+            return response()->json([
+                'success' => false,
+                'msg' => 'validation_errors',
+                'errors' => json_last_error_msg()
+            ], 500);
+        }
+
+        $consignor = !empty($data['consignor']) ? $data['consignor'] : null;
 
         if ($consignor == null) {
             return response()->json([
@@ -92,7 +104,7 @@ class OrdersController extends Controller
             ], 422);
         }
 
-        $shippings = $request->post('shippings');
+        $shippings = $data['shippings'];
 
         if (empty($shippings)) {
             return response()->json([
