@@ -104,7 +104,7 @@ class OrdersController extends Controller
             ], 422);
         }
 
-        $shippings = $data['shippings'];
+        $shippings = $data['shippings'] ? $data['shippings'] : null;
 
         if (empty($shippings)) {
             return response()->json([
