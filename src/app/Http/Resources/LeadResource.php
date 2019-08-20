@@ -20,7 +20,7 @@ class LeadResource extends JsonResource
         $data = parent::toArray($request);
 
         return array_merge($data,
-            ['orders' => OrdersResource::collection($this->orders()->get())]
+            ['invoices' => OrdersResource::collection($this->orders()->get())]
             );
     }
 }

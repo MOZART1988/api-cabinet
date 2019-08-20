@@ -11,7 +11,8 @@ class Lead extends Model
     public function orders()
     {
         return $this->hasMany(Order::class, 'lead_id', 'lead_id')
-            ->whereNotNull('waybill');
+            ->whereNotNull('waybill')
+            ->where('waybill', '!=', '');
     }
 
 }
