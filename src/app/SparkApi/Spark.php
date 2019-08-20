@@ -115,7 +115,7 @@ class Spark
         return $result;
     }
 
-    public function addOrder($consignor, $receiver, $cargo)
+    public function addOrder($consignor, $shipments)
     {
         /**
          * {
@@ -187,19 +187,27 @@ class Spark
 
         $response = null;
 
+        $shipmentsResult = [];
+
+        foreach ($shipments as $shipment) {
+            $shipmentsResult[] = [
+                'receiver' => $shipment['receiver'],
+                'cargo' => $shipment['cargo']
+            ];
+        }
+
+        $body = json_encode([
+            'consignor' => $consignor,
+            'shippings' => [
+                $shipments
+            ]
+        ]);
+
         try {
             $response = $this->client->request(
                 'POST', $url,
                 [
-                    'body' => json_encode([
-                        'consignor' => $consignor,
-                        'shippings' => [
-                            0 => [
-                                'receiver' => $receiver,
-                                'cargo' => $cargo
-                            ]
-                        ]
-                    ]),
+                    'body' => $body,
                     'headers' => [
                         'Content-Type' => 'application/json',
                         'token' => $token,

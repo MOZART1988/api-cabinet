@@ -15,6 +15,72 @@ class OrdersController extends Controller
         $this->sparkApi = new Spark();
     }
 
+    protected function validateShipments($shippings) {
+        foreach ($shippings as $shipping) {
+            $receiver = $shipping['receiver'];
+
+            if ($receiver === null) {
+                return response()->json([
+                    'success' => false,
+                    'msg' => 'validation_errors',
+                    'errors' => ['receiver' => ['Не может быть пустым']]
+                ], 422);
+            }
+
+            if (empty($receiver['contact_phone'])) {
+                return response()->json([
+                    'success' => false,
+                    'msg' => 'validation_errors',
+                    'errors' => ['receiver[contact_phone]' => ['Не может быть пустым']]
+                ], 422);
+            }
+
+            if (empty($receiver['contact_person'])) {
+                return response()->json([
+                    'success' => false,
+                    'msg' => 'validation_errors',
+                    'errors' => ['receiver[contact_person]' => ['Не может быть пустым']]
+                ], 422);
+            }
+
+            $cargo = $shipping('cargo');
+
+            if ($cargo === null) {
+                return response()->json([
+                    'success' => false,
+                    'msg' => 'validation_errors',
+                    'errors' => ['cargo' => ['Не может быть пустым']]
+                ], 422);
+            }
+
+            if (empty($cargo['payment_type'])) {
+                return response()->json([
+                    'success' => false,
+                    'msg' => 'validation_errors',
+                    'errors' => ['cargo[payment_type]' => ['Не может быть пустым']]
+                ], 422);
+            }
+
+            if (empty($cargo['payment_method'])) {
+                return response()->json([
+                    'success' => false,
+                    'msg' => 'validation_errors',
+                    'errors' => ['cargo[payment_method]' => ['Не может быть пустым']]
+                ], 422);
+            }
+
+            if (empty($cargo['shipment_type'])) {
+                return response()->json([
+                    'success' => false,
+                    'msg' => 'validation_errors',
+                    'errors' => ['cargo[shipment_type]' => ['Не может быть пустым']]
+                ], 422);
+            }
+        }
+
+        return true;
+    }
+
     public function add(Request $request)
     {
         $consignor = $request->post('consignor');
@@ -51,67 +117,19 @@ class OrdersController extends Controller
             ], 422);
         }
 
-        $receiver = $request->post('receiver');
+        $shipments = $request->post('shippings');
 
-        if ($receiver === null) {
+        if (empty($shippings)) {
             return response()->json([
                 'success' => false,
                 'msg' => 'validation_errors',
-                'errors' => ['receiver' => ['Не может быть пустым']]
+                'errors' => ['shipments' => ['Не может быть пустым']]
             ], 422);
         }
 
-        if (empty($receiver['contact_phone'])) {
-            return response()->json([
-                'success' => false,
-                'msg' => 'validation_errors',
-                'errors' => ['receiver[contact_phone]' => ['Не может быть пустым']]
-            ], 422);
-        }
+        $this->validateShipments($shippings);
 
-        if (empty($receiver['contact_person'])) {
-            return response()->json([
-                'success' => false,
-                'msg' => 'validation_errors',
-                'errors' => ['receiver[contact_person]' => ['Не может быть пустым']]
-            ], 422);
-        }
-
-        $cargo = $request->post('cargo');
-
-        if ($cargo === null) {
-            return response()->json([
-                'success' => false,
-                'msg' => 'validation_errors',
-                'errors' => ['cargo' => ['Не может быть пустым']]
-            ], 422);
-        }
-
-        if (empty($cargo['payment_type'])) {
-            return response()->json([
-                'success' => false,
-                'msg' => 'validation_errors',
-                'errors' => ['cargo[payment_type]' => ['Не может быть пустым']]
-            ], 422);
-        }
-
-        if (empty($cargo['payment_method'])) {
-            return response()->json([
-                'success' => false,
-                'msg' => 'validation_errors',
-                'errors' => ['cargo[payment_method]' => ['Не может быть пустым']]
-            ], 422);
-        }
-
-        if (empty($cargo['shipment_type'])) {
-            return response()->json([
-                'success' => false,
-                'msg' => 'validation_errors',
-                'errors' => ['cargo[shipment_type]' => ['Не может быть пустым']]
-            ], 422);
-        }
-
-        $response = $this->sparkApi->addOrder($consignor, $receiver, $cargo);
+        $response = $this->sparkApi->addOrder($consignor, $shippings);
 
         if (!empty($response['Status']) && ($response['Status'] === 'Ошибка')) {
             return response()->json([
