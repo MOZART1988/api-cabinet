@@ -86,4 +86,9 @@ class User extends Authenticatable implements JWTSubject
     {
         return $this->hasMany(Lead::class, 'sender_company_bin');
     }
+
+    public function leads1C()
+    {
+        return $this->hasMany(Lead1C::class, 'sender_company_bin');
+    }
 }
