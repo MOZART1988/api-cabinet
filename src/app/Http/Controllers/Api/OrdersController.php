@@ -16,69 +16,56 @@ class OrdersController extends Controller
     }
 
     protected function validateShipments($shippings) {
-        foreach ($shippings as $shipping) {
-            $receiver = $shipping['receiver'];
 
-            if ($receiver === null) {
-                return response()->json([
-                    'success' => false,
-                    'msg' => 'validation_errors',
-                    'errors' => ['receiver' => ['Не может быть пустым']]
-                ], 422);
+        $errors = [];
+
+        foreach ($shippings as $key => $shipping) {
+            if (empty($shipping['receiver'])) {
+                $errors[] = [
+                    $key => ['receiver' => ['Не может быть пустым']]
+                ];
             }
 
+            $receiver = $shipping['receiver'];
+
             if (empty($receiver['contact_phone'])) {
-                return response()->json([
-                    'success' => false,
-                    'msg' => 'validation_errors',
-                    'errors' => ['receiver[contact_phone]' => ['Не может быть пустым']]
-                ], 422);
+                $errors[] = [
+                    $key => ['receiver[contact_phone]' => ['Не может быть пустым']]
+                ];
             }
 
             if (empty($receiver['contact_person'])) {
-                return response()->json([
-                    'success' => false,
-                    'msg' => 'validation_errors',
-                    'errors' => ['receiver[contact_person]' => ['Не может быть пустым']]
-                ], 422);
+                $errors[] = [
+                    $key => ['receiver[contact_person]' => ['Не может быть пустым']]
+                ];
             }
 
-            $cargo = $shipping('cargo');
-
-            if ($cargo === null) {
-                return response()->json([
-                    'success' => false,
-                    'msg' => 'validation_errors',
-                    'errors' => ['cargo' => ['Не может быть пустым']]
-                ], 422);
+            if (empty($shipping['cargo'])) {
+                $errors[] = [
+                    $key => ['cargo' => ['Не может быть пустым']]
+                ];
             }
 
             if (empty($cargo['payment_type'])) {
-                return response()->json([
-                    'success' => false,
-                    'msg' => 'validation_errors',
-                    'errors' => ['cargo[payment_type]' => ['Не может быть пустым']]
-                ], 422);
+                $errors[] = [
+                    $key => ['cargo[payment_type]' => ['Не может быть пустым']]
+                ];
             }
 
             if (empty($cargo['payment_method'])) {
-                return response()->json([
-                    'success' => false,
-                    'msg' => 'validation_errors',
-                    'errors' => ['cargo[payment_method]' => ['Не может быть пустым']]
-                ], 422);
+                $errors[] = [
+                    $key => ['cargo[payment_method]' => ['Не может быть пустым']]
+                ];
             }
 
             if (empty($cargo['shipment_type'])) {
-                return response()->json([
-                    'success' => false,
-                    'msg' => 'validation_errors',
-                    'errors' => ['cargo[shipment_type]' => ['Не может быть пустым']]
-                ], 422);
+                $errors[] = [
+                    $key => ['cargo[shipment_type]' => ['Не может быть пустым']]
+                ];
             }
         }
 
-        return true;
+        return $errors;
     }
 
     public function add(Request $request)
@@ -117,17 +104,25 @@ class OrdersController extends Controller
             ], 422);
         }
 
-        $shipments = $request->post('shippings');
+        $shippings = $request->post('shippings');
 
         if (empty($shippings)) {
             return response()->json([
                 'success' => false,
                 'msg' => 'validation_errors',
-                'errors' => ['shipments' => ['Не может быть пустым']]
+                'errors' => ['shippings' => ['Не может быть пустым']]
             ], 422);
         }
 
-        $this->validateShipments($shippings);
+        $errorsShipment = $this->validateShipments($shippings);
+
+        if (!empty($errorsShipment)) {
+            return response()->json([
+                'success' => false,
+                'msg' => 'validation_errors',
+                'errors' => $errorsShipment
+            ], 422);
+        }
 
         $response = $this->sparkApi->addOrder($consignor, $shippings);
 

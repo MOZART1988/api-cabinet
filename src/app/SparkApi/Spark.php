@@ -198,9 +198,7 @@ class Spark
 
         $body = json_encode([
             'consignor' => $consignor,
-            'shippings' => [
-                $shipments
-            ]
+            'shippings' => $shipmentsResult
         ]);
 
         try {
