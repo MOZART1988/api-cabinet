@@ -69,6 +69,14 @@ class OrdersController extends Controller
             ], 422);
         }
 
+        if (empty($receiver['city'])) {
+            return response()->json([
+                'success' => false,
+                'msg' => 'validation_errors',
+                'errors' => ['receiver[city]' => ['Не может быть пустым']]
+            ], 422);
+        }
+
         $cargo = $request->post('cargo');
 
         if ($cargo === null) {

@@ -164,13 +164,14 @@ class Spark
                     "declared_price": 60000
                 }
             }
-        ]
+        ]}
         */
 
         /**
          * В объекте $consignor required
          * contact_person
          * contact_phone
+         * city
          * Объект shipments обязателен, тут баг возвращает пустоту если не передать эти штуки
          * Объект receiver обязательны contact_phone, contact_person
          * В объекте cargo обязательны payment_type, payment_method, shipment_type
@@ -194,8 +195,11 @@ class Spark
                         [
                             'consignor' => $consignor,
                             'shippings' => [
-                                'receiver' => $receiver,
-                                'cargo' => $cargo
+                                [
+                                    'receiver' => $receiver,
+                                    'cargo' => $cargo
+                                ]
+
                             ]
                         ], JSON_FORCE_OBJECT
                     ),
