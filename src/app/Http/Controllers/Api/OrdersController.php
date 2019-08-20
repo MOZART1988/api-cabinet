@@ -21,47 +21,35 @@ class OrdersController extends Controller
 
         foreach ($shippings as $key => $shipping) {
             if (empty($shipping['receiver'])) {
-                $errors[] = [
-                    $key => ['receiver' => ['Не может быть пустым']]
-                ];
+                $errors[] = ["receiver[$key]" => ['Не может быть пустым']];
             }
 
-            $receiver = $shipping['receiver'];
+            $receiver = !empty($shipping['receiver']) ? $shipping['receiver'] : null;
 
             if (empty($receiver['contact_phone'])) {
-                $errors[] = [
-                    $key => ['receiver[contact_phone]' => ['Не может быть пустым']]
-                ];
+                $errors[] = ["receiver[contact_phone][$key]" => ['Не может быть пустым']];
             }
 
             if (empty($receiver['contact_person'])) {
-                $errors[] = [
-                    $key => ['receiver[contact_person]' => ['Не может быть пустым']]
-                ];
+                $errors[] = ["receiver[contact_person][$key]" => ['Не может быть пустым']];
             }
 
             if (empty($shipping['cargo'])) {
-                $errors[] = [
-                    $key => ['cargo' => ['Не может быть пустым']]
-                ];
+                $errors[] = ['cargo' => ['Не может быть пустым']];
             }
 
+            $cargo = !empty($shipping['cargo']) ? $shipping['cargo'] : null;
+
             if (empty($cargo['payment_type'])) {
-                $errors[] = [
-                    $key => ['cargo[payment_type]' => ['Не может быть пустым']]
-                ];
+                $errors[] = ["cargo[payment_type][$key]" => ['Не может быть пустым']];
             }
 
             if (empty($cargo['payment_method'])) {
-                $errors[] = [
-                    $key => ['cargo[payment_method]' => ['Не может быть пустым']]
-                ];
+                $errors[] = ["cargo[payment_method][$key]" => ['Не может быть пустым']];
             }
 
             if (empty($cargo['shipment_type'])) {
-                $errors[] = [
-                    $key => ['cargo[shipment_type]' => ['Не может быть пустым']]
-                ];
+                $errors[] = ["cargo[shipment_type][$key]" => ['Не может быть пустым']];
             }
         }
 
