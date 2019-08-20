@@ -115,7 +115,7 @@ class Spark
         return $result;
     }
 
-    public function addOrder($consignor, $shippings)
+    public function addOrder($consignor, $receiver, $cargo)
     {
         /**
          * {
@@ -167,6 +167,15 @@ class Spark
         ]
         */
 
+        /**
+         * В объекте $consignor required
+         * contact_person
+         * contact_phone
+         * Объект shipments обязателен, тут баг возвращает пустоту если не передать эти штуки
+         * Объект receiver обязательны contact_phone, contact_person
+         * В объекте cargo обязательны payment_type, payment_method, shipment_type
+        */
+
         $token = $this->token;
 
         if ($token == null) {
@@ -184,7 +193,10 @@ class Spark
                     'body' => json_encode(
                         [
                             'consignor' => $consignor,
-                            'shippings' => $shippings,
+                            'shippings' => [
+                                'receiver' => $receiver,
+                                'cargo' => $cargo
+                            ]
                         ], JSON_FORCE_OBJECT
                     ),
                     'headers' => [
