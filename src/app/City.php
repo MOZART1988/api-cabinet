@@ -14,4 +14,14 @@ class City extends Model
     {
         $this->hasOne(Country::class, 'code', 'country_code');
     }
+
+    public function directionsFrom()
+    {
+        return $this->hasMany(Direction::class, 'city_code_from', 'code');
+    }
+
+    public function directionsTo()
+    {
+        return $this->hasMany(Direction::class, 'city_code_to', 'code');
+    }
 }

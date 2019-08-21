@@ -39,6 +39,8 @@ Route::group(['namespace' => 'Api', 'middleware' => ['api.headers']], function (
         ->name('cities')->middleware('jwt.auth');
     Route::get('catalog/countries', 'CatalogController@countries')
         ->name('countries')->middleware('jwt.auth');
+    Route::get('catalog/cities-to/{cityFromCode}', 'CatalogController@getDirectionsCityToFromCityFrom')
+        ->name('cities-to')->middlware('jwt.auth');
 
 
     Route::get('report', 'LeadsController@list')

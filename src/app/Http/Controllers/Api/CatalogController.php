@@ -100,4 +100,18 @@ class CatalogController extends Controller
         return CityResource::collection($query->paginate());
 
     }
+
+    public function getDirectionsCityToFromCityFrom($cityFromCode)
+    {
+        $result = [];
+
+        $directions = Direction::query()
+            ->where('city_code_from', '=', $cityFromCode)->get();
+
+        foreach ($directions as $direction) {
+            $result[] = $direction->cityTo;
+        }
+
+        return CityResource::collection($result);
+    }
 }
