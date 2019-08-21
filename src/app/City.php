@@ -12,7 +12,7 @@ class City extends Model
 
     public function country()
     {
-        $this->hasOne(Country::class, 'code', 'country_code');
+        return $this->hasOne(Country::class, 'code', 'country_code');
     }
 
     public function directionsFrom()
