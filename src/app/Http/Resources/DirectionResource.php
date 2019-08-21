@@ -22,8 +22,8 @@ class DirectionResource extends JsonResource
         $data = parent::toArray($request);
 
         return array_merge($data, [
-            'cityFrom' => $this->cityFrom()->get(),
-            'cityTo' => $this->cityTo()->get()
+            'cityFrom' => $this->cityFrom,
+            'cityTo' => $this->cityTo
         ]);
     }
 }
