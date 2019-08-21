@@ -112,6 +112,11 @@ class CatalogController extends Controller
             $result[] = $direction->cityTo;
         }
 
-        return CityResource::collection($result);
+        return response()->json(
+            [
+                'success' => true,
+                'data' => $result
+            ]
+        );
     }
 }
