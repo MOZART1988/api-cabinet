@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use App\City;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class CityResource extends JsonResource
@@ -14,8 +15,11 @@ class CityResource extends JsonResource
      */
     public function toArray($request)
     {
+        /**
+         * @var $this City
+        */
+        $data = parent::toArray($request);
 
-
-        return parent::toArray($request);
+        return array_merge($data, ['country' => $this->country()->get()]);
     }
 }

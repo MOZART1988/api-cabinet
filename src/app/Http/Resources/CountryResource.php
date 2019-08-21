@@ -21,6 +21,6 @@ class CountryResource extends JsonResource
 
         $data = parent::toArray($request);
 
-        return array_merge($data, ['country' => $this->country()->get()]);
+        return $data;
     }
 }
