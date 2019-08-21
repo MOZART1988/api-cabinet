@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Api;
 
 use App\SparkApi\Spark;
-use http\Env\Response;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -26,19 +25,21 @@ class TemplatesController extends Controller
 
     public function add(Request $request)
     {
-        $object = $request->post('object');
+        $data = $this->readJsonDataFromBody($request);
 
-        if ($object === null) {
+        $result = $this->sparkApi->addTemplate($data);
+
+        if ($result['Status'] === 'Ошибка') {
             return response()->json([
                 'success' => false,
                 'msg' => 'validation_errors',
-                'errors' => ['object' => ['Не может быть пустым']]
+                'errors' => $result['Status']
             ], 422);
         }
 
         return response()->json([
             'success' => true,
-            'data' => $this->sparkApi->addTemplate($object)
+            'data' => $result
         ]);
     }
 }

@@ -16,8 +16,8 @@ class OrdersController extends Controller
         $this->sparkApi = new Spark();
     }
 
-    protected function validateShipments($shippings) {
-
+    protected function validateShipments($shippings)
+    {
         $errors = [];
 
         foreach ($shippings as $key => $shipping) {
@@ -59,16 +59,7 @@ class OrdersController extends Controller
 
     public function add(Request $request)
     {
-        $data = str_replace("'", "\"", $request->instance()->getContent());
-        $data = json_decode($data, true, 512, JSON_UNESCAPED_UNICODE);
-
-        if (json_last_error() !== 0) {
-            return response()->json([
-                'success' => false,
-                'msg' => 'validation_errors',
-                'errors' => json_last_error_msg()
-            ], 500);
-        }
+        $data = $this->readJsonDataFromBody($request);
 
         $consignor = !empty($data['consignor']) ? $data['consignor'] : null;
 

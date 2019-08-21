@@ -260,14 +260,15 @@ class Spark
         $url = config('app.spark_api_url') . '/template';
 
         $response = null;
+        $body = json_encode(
+            $object, JSON_FORCE_OBJECT
+        );
 
         try {
             $response = $this->client->request(
                 'POST', $url,
                 [
-                    'body' => json_encode(
-                        $object, JSON_FORCE_OBJECT
-                    ),
+                    'body' => $body,
                     'headers' => [
                         'Content-Type' => 'application/json',
                         'token' => $token
@@ -279,7 +280,7 @@ class Spark
         }
 
         if ($response !== null) {
-            $response = json_decode($response);
+            $response = json_decode($response, JSON_FORCE_OBJECT);
         }
 
         return $response;
