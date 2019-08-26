@@ -29,6 +29,8 @@ Route::group(['namespace' => 'Api', 'middleware' => ['api.headers']], function (
         Route::post('user/register', 'RegisterController@register');
     });
 
+    Route::get('/profile', 'UserController@profile')->middleware('jwt.auth');
+
 
     Route::get('status', 'InvoicesController@getInvoiceByNumber')
         ->name('getInvoiceNumber')->middleware('jwt.auth');
