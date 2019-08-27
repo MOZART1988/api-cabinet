@@ -86,6 +86,35 @@ class Spark
         return $result;
     }
 
+    public function requestInvoicesByOriderNumber($orderNumber)
+    {
+        $url = config('app.spark_api_url') . '/invoicestatus?order_number=' . $orderNumber;
+
+        $result = null;
+
+        try {
+            $response = json_decode($this->client->get($url)->getBody(), JSON_FORCE_OBJECT);
+
+            if ($response['Status'] === 'Ошибка') {
+                $result = [
+                    'success' => false,
+                    'msg' => $response['Error']
+                ];
+            } else {
+                $result = [
+                    'success' => true,
+                    'data' => $response
+                ];
+            }
+
+
+        } catch (ClientException $exception) {
+
+        }
+
+        return $result;
+    }
+
     public function requestCatalog($catalogType)
     {
         $url = config('app.spark_api_url') . '/catalog?catalog=' . $catalogType;

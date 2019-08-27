@@ -41,4 +41,30 @@ class InvoicesController extends Controller
         return response()->json(['success' => true, 'data' =>$response['data']]);
 
     }
+
+    public function getInvoicesByOrderNumber(Request $request)
+    {
+        $orderNumber = $request->get('orderNumber');
+
+        if (!$orderNumber) {
+            return response()->json([
+                'success' => false,
+                'msg' => 'validation_errors',
+                'errors' => ['orderNumber' => ['Не может быть пустым']]
+            ], 422);
+        }
+
+        $response = $this->sparkApiClient->requestInvoicesByOriderNumber($orderNumber);
+
+        if ($response['success'] === false) {
+            return response()->json([
+                'success' => false,
+                'msg' => $response['msg'],
+            ]);
+        }
+
+
+        return response()->json(['success' => true, 'data' => $response['data']]);
+
+    }
 }
