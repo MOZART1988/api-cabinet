@@ -86,9 +86,9 @@ class Spark
         return $result;
     }
 
-    public function requestReport()
+    public function requestReport($query = null)
     {
-        $url = config('app.spark_api_url') . '/invoicereport';
+        $url = config('app.spark_api_url') . ($query === null ? '/invoicereport' : '/invoicereport?' .$query);
 
         $result = null;
 
@@ -112,7 +112,7 @@ class Spark
 
             $response = json_decode($response, JSON_FORCE_OBJECT);
 
-            if ($response['Status'] === 'Ошибка') {
+            if (!empty($response['Status']) && $response['Status'] === 'Ошибка') {
                 $result = [
                     'success' => false,
                     'msg' => $response['Error']

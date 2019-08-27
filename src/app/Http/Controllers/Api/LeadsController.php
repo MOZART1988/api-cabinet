@@ -24,9 +24,9 @@ class LeadsController extends Controller
         return ['success' => true, 'data' => LeadResource::collection($query->get())];
     }
 
-    public function report()
+    public function report(Request $request)
     {
-        $response = $this->sparkApiClient->requestReport();
+        $response = $this->sparkApiClient->requestReport($request->getQueryString());
 
         if ($response['success'] === false) {
             return response()->json([
@@ -35,6 +35,6 @@ class LeadsController extends Controller
             ]);
         }
 
-        return ['success' => true, 'data' => $response];
+        return $response;
     }
 }
