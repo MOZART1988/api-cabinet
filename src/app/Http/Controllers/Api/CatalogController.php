@@ -47,6 +47,14 @@ class CatalogController extends Controller
             $query->where('direction', 'like', $request->get('direction') . '%');
         }
 
+        if ($request->has('city_code_from')) {
+            $query->where('city_code_from', '=', $request->get('city_code_from'));
+        }
+
+        if ($request->has('city_code_to')) {
+            $query->where('city_code_to', '=', $request->get('city_code_to'));
+        }
+
         return DirectionResource::collection($query->paginate());
     }
 
@@ -95,6 +103,10 @@ class CatalogController extends Controller
 
         if ($request->has('region')) {
             $query->where('region', 'like', $request->get('region') . '%');
+        }
+
+        if ($request->has('country_code')) {
+            $query->where('country_code', '=', $request->get('country_code'));
         }
 
         return CityResource::collection($query->paginate());
