@@ -35,7 +35,7 @@ Route::group(['namespace' => 'Api', 'middleware' => ['api.headers']], function (
     Route::get('status', 'InvoicesController@getInvoiceByNumber')
         ->name('getInvoiceNumber')->middleware('jwt.auth');
     Route::get('status-by-order-number', 'InvoicesController@getInvoicesByOrderNumber')
-        ->name('statusByOrderNumber');
+        ->name('statusByOrderNumber')->middleware('jwt.auth');
 
     Route::get('catalog/directions', 'CatalogController@directions')
         ->name('directions')->middleware('jwt.auth');
@@ -49,6 +49,9 @@ Route::group(['namespace' => 'Api', 'middleware' => ['api.headers']], function (
 
     Route::get('report', 'LeadsController@list')
         ->name('report')->middleware('jwt.auth');
+
+    Route::get('report1c', 'LeadsController@report')
+        ->name('report1c')->middleware('jwt.auth');
 
     Route::post('order', 'OrdersController@add')
         ->name('add-order')->middleware('jwt.auth');

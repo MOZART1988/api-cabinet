@@ -86,6 +86,52 @@ class Spark
         return $result;
     }
 
+    public function requestReport()
+    {
+        $url = config('app.spark_api_url') . '/invoicereport';
+
+        $result = null;
+
+        $token = $this->token;
+
+        if ($token == null) {
+            $token = self::authorize($this->client);
+        }
+
+        try {
+
+            $response = $this->client->request(
+                'GET', $url,
+                [
+                    'headers' => [
+                        'Content-Type' => 'application/json',
+                        'token' => $token
+                    ]
+                ]
+            )->getBody();
+
+            $response = json_decode($response, JSON_FORCE_OBJECT);
+
+            if ($response['Status'] === 'Ошибка') {
+                $result = [
+                    'success' => false,
+                    'msg' => $response['Error']
+                ];
+            } else {
+                $result = [
+                    'success' => true,
+                    'data' => $response
+                ];
+            }
+
+
+        } catch (ClientException $exception) {
+
+        }
+
+        return $result;
+    }
+
     public function requestInvoicesByOriderNumber($orderNumber)
     {
         $url = config('app.spark_api_url') . '/invoicestatus?order_number=' . $orderNumber;
