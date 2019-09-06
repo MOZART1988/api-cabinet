@@ -266,6 +266,7 @@ class Spark
 
         foreach ($shipments as $shipment) {
             $shipmentsResult[] = [
+                'guid' => $shipment['guid'],
                 'receiver' => $shipment['receiver'],
                 'cargo' => $shipment['cargo']
             ];
