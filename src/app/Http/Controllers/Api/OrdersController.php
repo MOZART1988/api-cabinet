@@ -13,7 +13,7 @@ class OrdersController extends Controller
 
     public function __construct()
     {
-        $this->sparkApi = new Spark(\Auth::user()->id);
+        $this->sparkApi = new Spark();
     }
 
     protected function validateShipments($shippings)

@@ -14,7 +14,7 @@ class LeadsController extends Controller
 
     public function __construct()
     {
-        $this->sparkApiClient = new Spark(\Auth::user()->id);
+        $this->sparkApiClient = new Spark();
     }
 
     public function list()
