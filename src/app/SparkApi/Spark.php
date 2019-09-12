@@ -66,7 +66,7 @@ class Spark
         try {
             $response = json_decode($this->client->get($url)->getBody(), JSON_FORCE_OBJECT);
 
-            if ($response['Status'] === 'Ошибка') {
+            if (isset($response['Status']) && $response['Status'] === 'Ошибка') {
                 $result = [
                     'success' => false,
                     'msg' => $response['Error']
@@ -142,7 +142,7 @@ class Spark
         try {
             $response = json_decode($this->client->get($url)->getBody(), JSON_FORCE_OBJECT);
 
-            if ($response['Status'] === 'Ошибка') {
+            if (isset($response['Status']) && $response['Status'] === 'Ошибка') {
                 $result = [
                     'success' => false,
                     'msg' => $response['Error']
