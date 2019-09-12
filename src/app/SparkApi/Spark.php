@@ -12,6 +12,7 @@ class Spark
     const DEFAULT_PASSWORD = '123';
 
     public $token = null;
+    public $bin = null;
 
     /**
      * @var Client
@@ -50,11 +51,13 @@ class Spark
         return $response['token'] ? $response['token'] : null;
     }
 
-    public function __construct()
+    public function __construct($bin)
     {
         $this->client = new Client();
 
         $this->token = self::authorize($this->client);
+
+        $this->bin = $bin;
     }
 
     public function requestInvoice($invoiceNumber)
@@ -105,7 +108,8 @@ class Spark
                 [
                     'headers' => [
                         'Content-Type' => 'application/json',
-                        'token' => $token
+                        'token' => $token,
+                        'bin' => $this->bin
                     ]
                 ]
             )->getBody();
@@ -285,6 +289,7 @@ class Spark
                     'headers' => [
                         'Content-Type' => 'application/json',
                         'token' => $token,
+                        'bin' => $this->bin
                     ]
                 ]
             )->getBody();
@@ -314,7 +319,8 @@ class Spark
         try {
             $response = json_decode($this->client->get($url,
                 ['headers' => [
-                    'token' => $token
+                    'token' => $token,
+                    'bin' => $this->bin
                 ]])->getBody(), JSON_FORCE_OBJECT);
 
 
@@ -347,7 +353,8 @@ class Spark
                     'body' => $body,
                     'headers' => [
                         'Content-Type' => 'application/json',
-                        'token' => $token
+                        'token' => $token,
+                        'bin' => $this->bin
                     ]
                 ]
             )->getBody();

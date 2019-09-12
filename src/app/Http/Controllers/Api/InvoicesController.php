@@ -13,7 +13,7 @@ class InvoicesController extends Controller
 
     public function __construct()
     {
-        $this->sparkApiClient = new Spark();
+        $this->sparkApiClient = new Spark(\Auth::user()->id);
     }
 
     public function getInvoiceByNumber(Request $request)

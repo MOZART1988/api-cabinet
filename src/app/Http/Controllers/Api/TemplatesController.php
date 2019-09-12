@@ -12,7 +12,7 @@ class TemplatesController extends Controller
 
     public function __construct()
     {
-        $this->sparkApi = new Spark();
+        $this->sparkApi = new Spark(\Auth::user()->id);
     }
 
     public function list()
