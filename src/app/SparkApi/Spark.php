@@ -317,7 +317,7 @@ class Spark
             $response = json_decode($this->client->get($url,
                 ['headers' => [
                     'token' => $token,
-                    'bin' => $this->bin
+                    'bin' => \Auth::user()->id
                 ]])->getBody(), JSON_FORCE_OBJECT);
 
 
