@@ -64,7 +64,17 @@ class Spark
         $result = null;
 
         try {
-            $response = json_decode($this->client->get($url)->getBody(), JSON_FORCE_OBJECT);
+            $request = $this->client->request(
+                'GET', $url,
+                [
+                    'headers' => [
+                        'Content-Type' => 'application/json',
+                        'bin' => \Auth::user()->id
+                    ]
+                ]
+            )->getBody();
+
+            $response = json_decode($request, JSON_FORCE_OBJECT);
 
             if (isset($response['Status']) && $response['Status'] === 'Ошибка') {
                 $result = [
