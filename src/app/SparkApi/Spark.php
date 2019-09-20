@@ -9,7 +9,7 @@ use GuzzleHttp\Exception\ClientException;
 class Spark
 {
     const DEFAULT_LOGIN = 'тест';
-    const DEFAULT_PASSWORD = '123';
+    const DEFAULT_PASSWORD = 'dJ#g6&w0y@aj';
 
     public $token = null;
 
