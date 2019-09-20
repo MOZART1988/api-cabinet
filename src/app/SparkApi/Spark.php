@@ -24,6 +24,8 @@ class Spark
 
         $response = null;
 
+        return 'token do not needed';
+
         try {
             $response = $client->request(
                 'POST', $url,
